@@ -746,7 +746,7 @@ function closeInv() { document.getElementById('invOverlay').classList.remove('op
 
 function sendWhatsApp() {
   const d = currentInv;
-  const msg = `🏗️ *SRI SAI RAM ENTERPRISES*\n📍 Ramapuram, Telangana\n${'─'.repeat(28)}\n📄 *Bill No: #${d.billNo}*\n📅 Date: ${d.date}\n👤 Customer: ${d.name}\n${'─'.repeat(28)}\n${d.itemsTxt}${'─'.repeat(28)}\n${d.discAmt > 0 ? `Sub-total: ₹${d.subtotal}\nDiscount: − ₹${d.discAmt}\n` : ''}💰 *TOTAL: ₹${d.total}*\n${'─'.repeat(28)}\nThank you! 🙏`;
+  const msg = `🏗️ *SRI SAI RAM ENTERPRISES*\n📍 Ramapuram, Telangana\n${'─'.repeat(25)}\n📄 *Bill No: #${d.billNo}*\n📅 Date: ${d.date}\n👤 Customer: ${d.name}\n${'─'.repeat(25)}\n${d.itemsTxt}${'─'.repeat(25)}\n${d.discAmt > 0 ? `Sub-total: ₹${d.subtotal}\nDiscount: − ₹${d.discAmt}\n` : ''}💰 *TOTAL: ₹${d.total}*\n${'─'.repeat(25)}\nThank you! Visit again 🙏`;
   window.open(`https://wa.me/91${d.phone}?text=${encodeURIComponent(msg)}`, '_blank');
   closeInv();
   document.getElementById('payName').textContent = d.name + ' — ₹' + d.total;
