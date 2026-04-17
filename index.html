@@ -25,6 +25,9 @@
   --border: #dde3f0;
   --shadow: 0 4px 24px rgba(13,27,42,0.10);
   --r: 16px;
+  #pwdInput {
+  height: 48px;
+}
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
@@ -234,13 +237,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
     <h2>Sri Sai Ram Enterprises</h2>
     <p class="sub">Ramapuram, Telangana</p>
    <div style="position:relative;">
+ <div style="position:relative; width:100%;">
   <input type="password" id="pwdInput" placeholder="Enter Password"
     onkeydown="if(event.key==='Enter')doLogin()"
-    style="width:100%; padding-right:40px;">
-    
+    style="width:100%; padding-right:45px;">
+
   <span id="eyeIcon" onclick="togglePassword()"
-    style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:16px;">
-    👁️
+    style="position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:18px; line-height:1;">
+    👀
   </span>
 </div>
     <button class="btn-login" onclick="doLogin()">Login →</button>
@@ -940,7 +944,18 @@ function updateSummary() {
   document.getElementById('sumPending').textContent = '₹' + total;
   document.getElementById('sumCount').textContent = lenders.length;
 }
+function togglePassword() {
+  const input = document.getElementById("pwdInput");
+  const icon = document.getElementById("eyeIcon");
 
+  if (input.type === "password") {
+    input.type = "text";
+    icon.textContent = "🙈";
+  } else {
+    input.type = "password";
+    icon.textContent = "👁️";
+  }
+}
 // ═══════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════
