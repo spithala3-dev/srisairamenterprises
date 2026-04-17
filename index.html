@@ -748,7 +748,7 @@ function sendWhatsApp() {
   const d = currentInv;
 
   const msg = `🏗️ *SRI SAI RAM ENTERPRISES*
-📍 https://maps.google.com/?q=Ramapuram+Telangana
+📍 Ramapuram, Telangana
 ${'─'.repeat(25)}
 🧾 *Bill No: #${d.billNo}*
 🗓️ *Date:* ${d.date}
@@ -756,7 +756,9 @@ ${'─'.repeat(25)}
 ${'─'.repeat(25)}
 ${d.itemsTxt}
 ${'─'.repeat(25)}
-${d.discAmt > 0 ? `Sub-total: ₹${d.subtotal}\nDiscount: − ₹${d.discAmt}\n` : ''}💰 *TOTAL: ₹${d.total}*
+${d.discAmt > 0 ? `Sub-total: ₹${d.subtotal}
+Discount: − ₹${d.discAmt}
+` : ''}💰 *TOTAL: ₹${d.total}*
 ${'─'.repeat(25)}
 Thank you , Visit again 🙏`;
 
