@@ -529,7 +529,6 @@ let billNo = 1;
 //  INIT
 // ═══════════════════════════════════════════
 window.onload = async () => {
-  document.getElementById('sqlCode').value = SQL_SETUP;
   setTimeout(async () => {
     document.getElementById('loader').classList.add('hide');
     const savedUrl = localStorage.getItem('sb_url');
@@ -1017,15 +1016,6 @@ function saveCreds() {
   localStorage.setItem('sb_url', document.getElementById('sbUrl').value.trim());
   localStorage.setItem('sb_key', document.getElementById('sbKey').value.trim());
 }
-
-function copySql() {
-  navigator.clipboard.writeText(SQL_SETUP).then(() => showToast('✅ SQL Copied!')).catch(() => {
-    document.getElementById('sqlCode').select();
-    document.execCommand('copy');
-    showToast('✅ SQL Copied!');
-  });
-}
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
