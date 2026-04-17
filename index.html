@@ -233,7 +233,16 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="icon">🏗️</div>
     <h2>Sri Sai Ram Enterprises</h2>
     <p class="sub">Ramapuram, Telangana</p>
-    <input type="password" id="pwdInput" placeholder="Enter Password" onkeydown="if(event.key==='Enter')doLogin()">
+   <div style="position:relative;">
+  <input type="password" id="pwdInput" placeholder="Enter Password"
+    onkeydown="if(event.key==='Enter')doLogin()"
+    style="width:100%; padding-right:40px;">
+    
+  <span id="eyeIcon" onclick="togglePassword()"
+    style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:16px;">
+    👁️
+  </span>
+</div>
     <button class="btn-login" onclick="doLogin()">Login →</button>
     <div class="login-err" id="loginErr"></div>
   </div>
