@@ -747,31 +747,18 @@ function closeInv() { document.getElementById('invOverlay').classList.remove('op
 function sendWhatsApp() {
   const d = currentInv;
 
-  const line = '─'.repeat(25);
-
-  // ✅ Payment Status
-  const status = d.paymentStatus === "PAID"
-    ? "🟢 *STATUS: PAID*"
-    : "🔴 *STATUS: PENDING*";
-
-  const msg =
-`🏗️ *SRI SAI RAM ENTERPRISES*
-📍 https://maps.app.goo.gl/7Y47WYoZXJ3fwmJ7A (Ramapuram, Telangana)
-
-${line}
+  const msg = `🏗️ *SRI SAI RAM ENTERPRISES*
+📍 https://maps.google.com/?q=Ramapuram+Telangana
+${'─'.repeat(25)}
 🧾 *Bill No: #${d.billNo}*
 🗓️ *Date:* ${d.date}
 👨🏻‍💼 *Customer:* ${d.name}
-${status}
-${line}
-
+${'─'.repeat(25)}
 ${d.itemsTxt}
-
-${line}
+${'─'.repeat(25)}
 ${d.discAmt > 0 ? `Sub-total: ₹${d.subtotal}\nDiscount: − ₹${d.discAmt}\n` : ''}💰 *TOTAL: ₹${d.total}*
-${line}
-
-Thank you, Visit again 🙏`;
+${'─'.repeat(25)}
+Thank you , Visit again 🙏`;
 
   window.open(`https://wa.me/91${d.phone}?text=${encodeURIComponent(msg)}`, '_blank');
 
@@ -784,7 +771,6 @@ Thank you, Visit again 🙏`;
 async function handlePay(paid) {
   closeSheet('paySheet');
   const d = currentInv;
-  d.paymentStatus = paid ? "PAID" : "PENDING";
   await incBillNo();
   if (paid) {
     showToast('✅ Payment received! Bill cleared.');
