@@ -126,24 +126,28 @@ body{
   background: linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
   padding:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  text-align:center;
   border-bottom-left-radius:20px;
   border-bottom-right-radius:20px;
+  position:relative;
+}
+  .topbar-left{
+  width:100%;
 }
   .topbar-left h1{
-  font-size:16px;
+  font-size:18px;
   font-weight:900;
   letter-spacing:0.5px;
 }
-.topbar-left p{font-size:11px;opacity:0.6;margin-top:1px;}
+.topbar-left p{font-size:12px;opacity:0.6;margin-top:1px;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;display:inline-block;margin-right:6px;animation:blink 2s infinite;}
 .sync-dot.offline{background:#f44336;animation:none;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.topbar-actions{display:flex;gap:8px;align-items:center;}
-.tbtn{background:rgba(255,255,255,0.12);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;}
+.topbar-actions{
+  position:absolute;
+  right:12px;
+  top:12px;
+}.tbtn{background:rgba(255,255,255,0.12);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;}
 .tbtn:hover{background:var(--accent);}
 
 /* ── TABS ── */
@@ -180,14 +184,28 @@ body{
 /* ── SUMMARY BAR ── */
 .summary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .summary-box{
-  border-radius:16px;
+  border-radius:18px;
   padding:16px;
   color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* LEFT CARD */
+.summary-box{
   background:linear-gradient(135deg,#0f766e,#0f172a);
 }
 
+/* RIGHT CARD */
 .summary-box.orange{
   background:linear-gradient(135deg,#f59e0b,#f97316);
+}
+
+.summary-box i{
+  width:32px;
+  height:32px;
+  opacity:0.8;
 }
 .summary-box .s-label{font-size:11px;opacity:0.7;margin-bottom:4px;}
 .summary-box .s-value{font-size:22px;font-weight:800;}
@@ -289,6 +307,14 @@ body{
 .qbtn.p{background:#e8f5e9;color:var(--success);}
 .qty-num{font-size:14px;font-weight:700;min-width:18px;text-align:center;}
 .cart-amt{font-size:13px;font-weight:700;color:var(--primary);min-width:58px;text-align:right;}
+  .qty-input{
+  width:50px;
+  text-align:center;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-weight:700;
+  padding:4px;
+}
 
 /* DISCOUNT ROW */
 .discount-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);}
@@ -433,7 +459,7 @@ body{
   display:flex;
   justify-content:space-around;
   padding:12px 0;
-  box-shadow:0 -10px 30px rgba(0,0,0,0.3);
+  box-shadow:none;
   border-top-left-radius:20px;
   border-top-right-radius:20px;
 }
@@ -493,7 +519,7 @@ color:#94a3b8;
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <h1>🏗️ Sri Sai Ram Enterprises</h1>
+      <h1>🏗️ Sri SaiRam Enterprises</h1>
       <p><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Connecting...</span></p>
     </div>
     <div class="topbar-actions">
@@ -504,14 +530,20 @@ color:#94a3b8;
   <!-- BILLING -->
   <div class="page active" id="page-billing">
     <div class="summary-row">
-      <div class="summary-box">
-        <div class="s-label">Total Pending</div>
-        <div class="s-value" id="sumPending">₹0</div>
-      </div>
-      <div class="summary-box orange">
-        <div class="s-label">Lenders Count</div>
-        <div class="s-value" id="sumCount">0</div>
-      </div>
+     <div class="summary-box">
+  <div>
+    <div class="s-label">Total Pending</div>
+    <div class="s-value" id="sumPending">₹0</div>
+  </div>
+  <i data-lucide="wallet"></i>
+</div>
+   <div class="summary-box orange">
+  <div>
+    <div class="s-label">Lenders Count</div>
+    <div class="s-value" id="sumCount">0</div>
+  </div>
+  <i data-lucide="users"></i>
+</div>
     </div>
 
     <div class="card">
@@ -521,7 +553,7 @@ color:#94a3b8;
     </div>
 
     <div class="card" id="cartCard" style="display:none;">
-      <div class="card-title">🛒 Cart</div>
+<div class="card-title"><i data-lucide="shopping-cart"></i> CART</div>
       <div id="cartRows"></div>
       <!-- DISCOUNT -->
       <div class="discount-row">
@@ -536,7 +568,7 @@ color:#94a3b8;
     </div>
 
     <div class="card" id="custCard" style="display:none;">
-      <div class="card-title">👤 Customer Details</div>
+<div class="card-title"><i data-lucide="user"></i> CUSTOMER DETAILS</div>
       <div class="fg">
         <label>Customer Name</label>
         <input type="text" id="custName" placeholder="Enter customer name">
@@ -545,8 +577,9 @@ color:#94a3b8;
         <label>WhatsApp Number</label>
         <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric">
       </div>
-      <button class="btn btn-accent" onclick="previewInv()">📄 Preview Invoice & Send</button>
-    </div>
+<button class="btn btn-accent" onclick="previewInv()">
+  <i data-lucide="send"></i> SEND INVOICE
+</button>    </div>
   </div>
 
   <!-- LENDERS -->
@@ -719,6 +752,7 @@ window.onload = async () => {
 
 function showLogin() {
   document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('bottomNav').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════
@@ -812,6 +846,7 @@ function doLogin() {
   if (document.getElementById('pwdInput').value === PASSWORD) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    document.getElementById('bottomNav').style.display = 'flex';
     renderAll();
   } else {
     document.getElementById('loginErr').textContent = '❌ Wrong password';
@@ -885,8 +920,9 @@ function renderCart() {
       <div class="cart-name">${p.name}</div>
       <div class="qty-ctrl">
         <button class="qbtn m" onclick="remCart(${p.id})">−</button>
-        <span class="qty-num">${cart[id]}</span>
-        <button class="qbtn p" onclick="addCart(${p.id})">+</button>
+<input type="number" class="qty-input" value="${cart[id]}" 
+onchange="setQty(${p.id}, this.value)">
+<button class="qbtn p" onclick="addCart(${p.id})">+</button>
       </div>
       <div class="cart-amt">₹${p.price * cart[id]}</div>
     </div>`;
@@ -1192,6 +1228,18 @@ function togglePassword() {
 // ═══════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════
+  function setQty(id, val){
+  const q = parseInt(val);
+
+  if(q <= 0){
+    delete cart[id];
+  } else {
+    cart[id] = q;
+  }
+
+  renderCart();
+  renderProds(document.getElementById('prodSearch').value);
+}
 function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
 
 function saveCreds() {
@@ -1212,7 +1260,7 @@ if ('serviceWorker' in navigator) {
 }
     lucide.createIcons();
 </script>
-  <div class="bottom-nav">
+<div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" onclick="showPage('billing', this)">
     <i data-lucide="receipt"></i>
     <span>Bill</span>
