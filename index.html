@@ -12,19 +12,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --primary: #0f172a;        /* deep navy */
-  --primary2: #1e293b;
-  --accent: #ff7a18;        /* premium orange */
-  --accent2: #ffb347;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --text: #0f172a;
-  --soft: #64748b;
-  --border: #e2e8f0;
-  --shadow: 0 10px 30px rgba(0,0,0,0.08);
-  --r: 18px;
+  --primary-dark: #0f172a;
+  --primary-green: #14532d;
+  --accent-green: #84cc16;
+  --accent-gold: #f59e0b;
+
+  --bg-main: linear-gradient(135deg,#d9f99d,#ecfccb,#fefce8);
+
+  --card-bg: rgba(255,255,255,0.75);
 }
     #pwdInput {
   height: 48px;
@@ -32,7 +27,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
   font-family:'Outfit',sans-serif;
-  background: linear-gradient(135deg,#e6ebf2,#fdfdfd);
+  background: linear-gradient(135deg,#d9f99d,#fefce8);
   color:var(--text);
   min-height:100vh;
 }
@@ -194,48 +189,65 @@ body{
 
 /* LEFT CARD */
 .summary-box{
-  background:linear-gradient(135deg,#0f766e,#0f172a);
+  border-radius:18px;
+  padding:16px;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* RIGHT CARD */
+/* DARK GREEN */
+.summary-box{
+  background:linear-gradient(135deg,#14532d,#0f172a);
+}
+
+/* LIGHT GREEN */
 .summary-box.orange{
-  background:linear-gradient(135deg,#f59e0b,#f97316);
-}
-
-.summary-box i{
-  width:32px;
-  height:32px;
-  opacity:0.8;
+  background:linear-gradient(135deg,#d9f99d,#bef264);
+  color:#0f172a;
 }
 .summary-box .s-label{font-size:11px;opacity:0.7;margin-bottom:4px;}
 .summary-box .s-value{font-size:22px;font-weight:800;}
 
 /* ── CARD ── */
 .card{
-  background: #ffffff;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
   border-radius:20px;
   padding:20px;
   margin-bottom:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.12);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.5);
 }
 .card-title{
-  font-size:12px;
-  font-weight:800;
-  color:var(--soft);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:700;
+  color:#64748b;
   margin-bottom:12px;
-  letter-spacing:1px;
-  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+  .card-title svg{
+  width:18px;
+  height:18px;
 }
 /* ── SEARCH ── */
 .search{
   width:100%;
   padding:14px 18px;
   border-radius:16px;
-  border:2px solid #0f172a;
+  border:none;
   background:white;
   font-size:14px;
   margin-bottom:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
   .search:focus{border-color:var(--accent);}
 
@@ -247,37 +259,24 @@ body{
   margin-top:14px;
 }
 .prod-btn{
-  background:linear-gradient(145deg,#ffffff,#f8fafc);
+  background:rgba(255,255,255,0.9);
   border-radius:18px;
   padding:16px;
   position:relative;
   transition:0.3s;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-  border:2px solid transparent;
-}
-  .add-btn{
-  position:absolute;
-  right:12px;
-  bottom:12px;
-  width:28px;
-  height:28px;
-  border-radius:8px;
-  background:#f1f5f9;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  font-weight:700;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
+/* glowing border */
 .prod-btn::before{
   content:'';
   position:absolute;
   inset:0;
   border-radius:18px;
   padding:2px;
-  background:linear-gradient(135deg,#0f766e,#f59e0b);
+  background:linear-gradient(135deg,#14532d,#f59e0b);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -286,7 +285,7 @@ body{
 }
 
 .prod-btn:hover{
-  transform:translateY(-5px);
+  transform:translateY(-6px) scale(1.02);
 }
 .prod-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;font-family:'Noto Sans Telugu','Outfit',sans-serif;}
 .prod-price{
@@ -450,28 +449,26 @@ body{
   from{opacity:0; transform:translateY(10px);}
   to{opacity:1; transform:translateY(0);}
 }
- .bottom-nav{
+.bottom-nav{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
+  bottom:12px;
+  left:12px;
+  right:12px;
+  background:linear-gradient(135deg,#0f172a,#14532d);
   display:flex;
   justify-content:space-around;
   padding:12px 0;
-  box-shadow:none;
-  border-top-left-radius:20px;
-  border-top-right-radius:20px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
 }
 
 .nav-item{
+  color:#cbd5f5;
+  font-size:12px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:12px;
-color:#94a3b8;
-  cursor:pointer;
-  transition:0.2s;
+  gap:4px;
 }
   .nav-item i{
   width:20px;
@@ -479,7 +476,7 @@ color:#94a3b8;
 }
 
 .nav-item.active{
-  color:#f97316;
+  color:#facc15;
   transform:translateY(-4px);
 }
 </style>
@@ -519,7 +516,7 @@ color:#94a3b8;
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <h1>🏗️ Sri SaiRam Enterprises</h1>
+      <h1> Sri SaiRam Enterprises</h1>
       <p><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Connecting...</span></p>
     </div>
     <div class="topbar-actions">
