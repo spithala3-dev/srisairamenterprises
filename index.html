@@ -134,7 +134,8 @@ body{
 }
   .topbar-left h1{
   font-size:16px;
-  font-weight:800;
+  font-weight:900;
+  letter-spacing:0.5px;
 }
 .topbar-left p{font-size:11px;opacity:0.6;margin-top:1px;}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;display:inline-block;margin-right:6px;animation:blink 2s infinite;}
@@ -172,7 +173,7 @@ body{
 }
 
 /* ── PAGES ── */
-.page{display:none;padding:14px;max-width:540px;margin:0 auto;padding-bottom:30px;}
+.page{display:none;padding:14px;max-width:540px;margin:0 auto;padding-bottom:80px;}
 .page.active{display:block;}
 
 /* ── SUMMARY BAR ── */
@@ -193,24 +194,39 @@ body{
 
 /* ── CARD ── */
 .card{
-  background:var(--card);
+  background: linear-gradient(145deg,#ffffff,#f1f5f9);
   border-radius:18px;
   padding:16px;
   margin-bottom:14px;
-  box-shadow:var(--shadow);
-  transition:0.2s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
-.card-title{font-size:13px;font-weight:700;color:var(--soft);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;}
-
+.card-title{
+  font-size:12px;
+  font-weight:800;
+  color:var(--soft);
+  margin-bottom:12px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
 /* ── SEARCH ── */
-.search{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;transition:border 0.2s;margin-bottom:12px;background:#fafbff;}
-.search:focus{border-color:var(--accent);}
+.search{
+  width:100%;
+  padding:12px 16px;
+  border-radius:14px;
+  border:none;
+  background:#eef2f7;
+  font-size:14px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}.search:focus{border-color:var(--accent);}
 
 /* ── PRODUCT GRID ── */
 .product-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
+  .card{
+  background: linear-gradient(180deg,#ffffff,#f8fafc);
+}
 }.prod-btn{
   background:white;
   border-radius:16px;
@@ -382,6 +398,35 @@ body{
   from{opacity:0; transform:translateY(10px);}
   to{opacity:1; transform:translateY(0);}
 }
+  .bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  box-shadow:0 -5px 20px rgba(0,0,0,0.1);
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  z-index:999;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:12px;
+  color:var(--soft);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.nav-item.active{
+  color:var(--accent);
+  transform:translateY(-3px);
+}
 </style>
 </head>
 <body>
@@ -425,13 +470,6 @@ body{
     <div class="topbar-actions">
       <button class="tbtn" onclick="doLogout()">Logout</button>
     </div>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" onclick="showPage('billing',this)">🛒 New Bill</button>
-    <button class="tab" onclick="showPage('lenders',this)">👥 Lenders</button>
-    <button class="tab" onclick="showPage('products',this)">📦 Products</button>
-    <button class="tab" onclick="showPage('setup',this)">⚙️ Setup</button>
   </div>
 
   <!-- BILLING -->
@@ -763,7 +801,7 @@ function doLogout() {
 // ═══════════════════════════════════════════
 function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
   renderAll();
@@ -1137,5 +1175,23 @@ if ('serviceWorker' in navigator) {
     .catch(err => console.log(err));
 }
 </script>
+  <div class="bottom-nav">
+  <div class="nav-item active" onclick="showPage('billing', this)">
+    🧾
+    <span>Bill</span>
+  </div>
+  <div class="nav-item" onclick="showPage('lenders', this)">
+    👥
+    <span>Lenders</span>
+  </div>
+  <div class="nav-item" onclick="showPage('products', this)">
+    📦
+    <span>Products</span>
+  </div>
+  <div class="nav-item" onclick="showPage('setup', this)">
+    ⚙️
+    <span>Setup</span>
+  </div>
+</div>
 </body>
 </html>
