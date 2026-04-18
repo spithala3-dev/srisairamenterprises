@@ -364,10 +364,18 @@ body{
 .btn-accent{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:white;
-  display:block;
+
+  display:flex;              /* 🔥 important */
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
   width:70%;
-  margin:16px auto 0;   /* 🔥 center fix */
-  text-align:center;
+  margin:16px auto 0;
+}
+  .btn-accent i{
+  width:18px;
+  height:18px;
 }
 .btn:hover{
   transform:translateY(-2px);
@@ -402,8 +410,19 @@ body{
 .lc-amt{font-size:16px;font-weight:800;color:var(--danger);}
 .lc-meta{font-size:11px;color:var(--soft);margin-bottom:8px;}
 .lc-paid{font-size:12px;color:var(--success);font-weight:600;margin-bottom:8px;}
-.lc-actions{display:flex;gap:6px;flex-wrap:wrap;}
-
+.lc-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+  .lc-actions .btn{
+  flex:1;                 /* 🔥 equal width */
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+}
 /* ── MANAGE PRODUCTS ── */
 .mp-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);}
 .mp-row:last-child{border-bottom:none;}
@@ -760,22 +779,29 @@ let billNo = 1;
 //  INIT
 // ═══════════════════════════════════════════
 window.onload = async () => {
-  setTimeout(async () => {
-    document.getElementById('loader').classList.add('hide');
-    const savedUrl = localStorage.getItem('sb_url');
-    const savedKey = localStorage.getItem('sb_key');
-    if (savedUrl && savedKey) {
-      document.getElementById('sbUrl').value = savedUrl;
-      document.getElementById('sbKey').value = savedKey;
-      await connectSupabase(true);
-    }
-    showLogin();
-  }, 1600);
+
+  const savedUrl = localStorage.getItem('sb_url');
+  const savedKey = localStorage.getItem('sb_key');
+
+  if (savedUrl && savedKey) {
+    document.getElementById('sbUrl').value = savedUrl;
+    document.getElementById('sbKey').value = savedKey;
+    await connectSupabase(true);
+  }
+
+  // 🔥 REMOVE DELAY LOGIC
+  documesetTimeout(() => {
+  document.getElementById('loader').classList.add('hide');
+}, 300);
+  nt.getElementById('loader').classList.add('hide');
+
+  showLogin();   // directly show login → no blank screen
 };
 
 function showLogin() {
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('bottomNav').style.display = 'none';
+  document.getElementById('app').style.display = 'none';  /* 🔥 fix */
 }
 
 // ═══════════════════════════════════════════
