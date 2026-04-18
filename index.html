@@ -789,13 +789,11 @@ window.onload = async () => {
     await connectSupabase(true);
   }
 
-  // 🔥 REMOVE DELAY LOGIC
-  documesetTimeout(() => {
-  document.getElementById('loader').classList.add('hide');
-}, 300);
-  nt.getElementById('loader').classList.add('hide');
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    showLogin();
+  }, 300);
 
-  showLogin();   // directly show login → no blank screen
 };
 
 function showLogin() {
