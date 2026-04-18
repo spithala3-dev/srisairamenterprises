@@ -178,8 +178,13 @@ body{
 }
 
 /* ── PAGES ── */
-.page{display:none;padding:14px;max-width:540px;margin:0 auto;padding-bottom:80px;}
-.page.active{display:block;}
+.page{
+  display:none;
+  padding:12px;
+  max-width:540px;
+  margin:0 auto;
+  padding-bottom:100px; /* space for nav */
+}.page.active{display:block;}
 
 /* ── SUMMARY BAR ── */
 .summary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
@@ -213,18 +218,19 @@ body{
 /* ── CARD ── */
 .card{
   background: #ffffff;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.12);
+  border-radius:22px;
+  padding:18px;
+  margin:14px 12px;   /* 🔥 side alignment fix */
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 .card-title{
-  font-size:12px;
-  font-weight:800;
-  color:var(--soft);
-  margin-bottom:12px;
-  letter-spacing:1px;
-  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:700;
+  color:#64748b;
+  margin-bottom:14px;
 }
 /* ── SEARCH ── */
 .search{
@@ -298,8 +304,13 @@ body{
 .cart-badge{position:absolute;top:-7px;right:-7px;background:var(--accent);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;box-shadow:0 2px 6px rgba(232,93,4,0.4);}
 
 /* ── CART ── */
-.cart-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);}
-.cart-row:last-child{border-bottom:none;}
+.cart-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px dashed var(--border);
+}.cart-row:last-child{border-bottom:none;}
 .cart-name{flex:1;font-size:13px;font-weight:600;font-family:'Noto Sans Telugu','Outfit',sans-serif;line-height:1.3;}
 .qty-ctrl{display:flex;align-items:center;gap:6px;}
 .qbtn{width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;}
@@ -329,7 +340,7 @@ body{
 .total-line.discount{color:var(--success);}
 
 /* ── FORMS ── */
-.fg{margin-bottom:11px;}
+.fg{margin-bottom:14px;}
 .fg label{display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.4px;}
 .fg input,.fg select,.fg textarea{width:100%;padding:11px 13px;border:2px solid var(--border);border-radius:10px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;transition:border 0.2s;background:white;}
 .fg input:focus,.fg select:focus{border-color:var(--accent);}
@@ -353,8 +364,11 @@ body{
 .btn-accent{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:white;
+  display:block;
+  width:70%;
+  margin:16px auto 0;   /* 🔥 center fix */
+  text-align:center;
 }
-
 .btn:hover{
   transform:translateY(-2px);
 }
@@ -452,26 +466,35 @@ body{
 }
  .bottom-nav{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:92%;
+  max-width:500px;
+
   background:linear-gradient(135deg,#0f172a,#1e293b);
+
+  border-radius:28px;   /* 🔥 smooth curve */
+  padding:12px 10px;
+
   display:flex;
   justify-content:space-around;
-  padding:12px 0;
-  box-shadow:none;
-  border-top-left-radius:20px;
-  border-top-right-radius:20px;
-}
+  align-items:center;
 
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
 .nav-item{
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:12px;
-color:#94a3b8;
-  cursor:pointer;
+  font-size:11px;
+  color:#94a3b8;
   transition:0.2s;
+}
+
+.nav-item.active{
+  color:#f97316;
+  transform:translateY(-3px);
 }
   .nav-item i{
   width:20px;
@@ -519,7 +542,7 @@ color:#94a3b8;
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <h1>🏗️ Sri SaiRam Enterprises</h1>
+      <h1> Sri SaiRam Enterprises</h1>
       <p><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Connecting...</span></p>
     </div>
     <div class="topbar-actions">
