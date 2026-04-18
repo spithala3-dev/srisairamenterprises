@@ -32,7 +32,8 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
   font-family:'Outfit',sans-serif;
-background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text);
+  background: linear-gradient(135deg,#e6ebf2,#fdfdfd);
+  color:var(--text);
   min-height:100vh;
 }
 /* ── LOADER ── */
@@ -193,11 +194,11 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
 
 /* ── CARD ── */
 .card{
-  background: linear-gradient(145deg,#ffffff,#f1f5f9);
-  border-radius:18px;
-  padding:18px;   /* increase */
+  background: #ffffff;
+  border-radius:20px;
+  padding:20px;
   margin-bottom:16px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.1);
+  box-shadow:0 15px 40px rgba(0,0,0,0.12);
 }
 .card-title{
   font-size:12px;
@@ -210,29 +211,31 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
 /* ── SEARCH ── */
 .search{
   width:100%;
-  padding:14px 16px;
-  border-radius:14px;
+  padding:14px 18px;
+  border-radius:16px;
   border:2px solid #0f172a;
   background:white;
   font-size:14px;
-  margin-bottom:12px;   /* 🔥 ADD THIS */
-}.search:focus{border-color:var(--accent);}
+  margin-bottom:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+}
+  .search:focus{border-color:var(--accent);}
 
 /* ── PRODUCT GRID ── */
 .product-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-top:12px;
+  gap:16px;
+  margin-top:14px;
 }
-}.prod-btn{
-  background:white;
+.prod-btn{
+  background:linear-gradient(145deg,#ffffff,#f8fafc);
   border-radius:18px;
   padding:16px;
-  border:2px solid #e2e8f0;
   position:relative;
-  transition:0.25s;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.3s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  border:2px solid transparent;
 }
   .add-btn{
   position:absolute;
@@ -250,18 +253,30 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
   box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
 
-.prod-btn:hover{
-  transform:translateY(-3px);
-  border-color:#0f766e;
+.prod-btn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  padding:2px;
+  background:linear-gradient(135deg,#0f766e,#f59e0b);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
 }
 
-.prod-btn.in-cart{
-  border-color:#f59e0b;
-  background:#fff7ed;
+.prod-btn:hover{
+  transform:translateY(-5px);
 }
-.prod-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;font-family:'Noto Sans Telugu','Outfit',sans-serif;}
-.prod-price{font-size:13px;color:var(--accent);font-weight:700;margin-top:3px;}
-.prod-unit{font-size:10px;color:var(--soft);font-weight:400;}
+.prod-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;font-family:'Noto Sans Telugu','Outfit',sans-serif;}
+.prod-price{
+  font-size:14px;
+  color:#f97316;
+  font-weight:800;
+  margin-top:4px;
+}.prod-unit{font-size:10px;color:var(--soft);font-weight:400;}
 .cart-badge{position:absolute;top:-7px;right:-7px;background:var(--accent);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;box-shadow:0 2px 6px rgba(232,93,4,0.4);}
 
 /* ── CART ── */
@@ -409,19 +424,18 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
   from{opacity:0; transform:translateY(10px);}
   to{opacity:1; transform:translateY(0);}
 }
-  .bottom-nav{
+ .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:white;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
   display:flex;
   justify-content:space-around;
-  padding:10px 0;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.1);
+  padding:12px 0;
+  box-shadow:0 -10px 30px rgba(0,0,0,0.3);
   border-top-left-radius:20px;
   border-top-right-radius:20px;
-  z-index:999;
 }
 
 .nav-item{
@@ -429,7 +443,7 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
   flex-direction:column;
   align-items:center;
   font-size:12px;
-  color:var(--soft);
+color:#94a3b8;
   cursor:pointer;
   transition:0.2s;
 }
@@ -439,8 +453,8 @@ background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text)
 }
 
 .nav-item.active{
-  color:var(--accent);
-  transform:translateY(-3px);
+  color:#f97316;
+  transform:translateY(-4px);
 }
 </style>
 </head>
