@@ -32,8 +32,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
   font-family:'Outfit',sans-serif;
-  background: linear-gradient(180deg,#eef2ff 0%, #f8fafc 100%);
-  color:var(--text);
+background: linear-gradient(180deg,#e2e8f0 0%, #f8fafc 100%);  color:var(--text);
   min-height:100vh;
 }
 /* ── LOADER ── */
@@ -196,9 +195,9 @@ body{
 .card{
   background: linear-gradient(145deg,#ffffff,#f1f5f9);
   border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  padding:18px;   /* increase */
+  margin-bottom:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.1);
 }
 .card-title{
   font-size:12px;
@@ -216,35 +215,49 @@ body{
   border:2px solid #0f172a;
   background:white;
   font-size:14px;
+  margin-bottom:12px;   /* 🔥 ADD THIS */
 }.search:focus{border-color:var(--accent);}
 
 /* ── PRODUCT GRID ── */
 .product-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  .card{
-  background: linear-gradient(180deg,#ffffff,#f8fafc);
+  gap:14px;
+  margin-top:12px;
 }
 }.prod-btn{
   background:white;
-  border-radius:16px;
-  padding:14px;
+  border-radius:18px;
+  padding:16px;
   border:2px solid #e2e8f0;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
   position:relative;
-  transition:0.2s;
+  transition:0.25s;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+  .add-btn{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  background:#f1f5f9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
 
 .prod-btn:hover{
+  transform:translateY(-3px);
   border-color:#0f766e;
 }
 
 .prod-btn.in-cart{
   border-color:#f59e0b;
-  background:#fffaf0;
+  background:#fff7ed;
 }
 .prod-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;font-family:'Noto Sans Telugu','Outfit',sans-serif;}
 .prod-price{font-size:13px;color:var(--accent);font-weight:700;margin-top:3px;}
@@ -488,8 +501,8 @@ body{
     </div>
 
     <div class="card">
-      <div class="card-title">📦 Select Items</div>
-      <input class="search" placeholder="🔍 Search product..." oninput="filterProds(this.value)" id="prodSearch">
+      <div class="card-title"> SELECT ITEMS </div>
+      <input class="search" placeholder="Search product..." oninput="filterProds(this.value)" id="prodSearch">
       <div class="product-grid" id="productGrid"></div>
     </div>
 
@@ -818,6 +831,11 @@ function renderAll() {
   renderLenders();
   renderManageProds();
   updateSummary();
+
+  // 🔥 VERY IMPORTANT
+  setTimeout(() => {
+    lucide.createIcons();
+  }, 0);
 }
 
 // ═══════════════════════════════════════════
@@ -829,11 +847,13 @@ function renderProds(filter = '') {
   if (!list.length) { grid.innerHTML = '<p style="color:var(--soft);font-size:13px;grid-column:1/-1;padding:10px 0;">No products found.</p>'; return; }
   grid.innerHTML = list.map(p => {
     const q = cart[p.id] || 0;
-    return `<div class="prod-btn${q > 0 ? ' in-cart' : ''}" onclick="addCart(${p.id})">
-      ${q > 0 ? `<div class="cart-badge">${q}</div>` : ''}
-      <div class="prod-name">${p.name}</div>
-      <div class="prod-price">₹${p.price} <span class="prod-unit">/ ${p.unit || 'piece'}</span></div>
-    </div>`;
+   return `<div class="prod-btn${q > 0 ? ' in-cart' : ''}" onclick="addCart(${p.id})">
+  ${q > 0 ? `<div class="cart-badge">${q}</div>` : ''}
+  <div class="prod-name">${p.name}</div>
+  <div class="prod-price">₹${p.price} <span class="prod-unit">/ ${p.unit || 'piece'}</span></div>
+
+  <div class="add-btn">+</div>
+</div>`;
   }).join('');
 }
 function filterProds(v) { renderProds(v); }
