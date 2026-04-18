@@ -28,6 +28,28 @@
     #pwdInput {
   height: 48px;
 }
+  .fab{
+  position:fixed;
+  bottom:75px;
+  left:50%;
+  transform:translateX(-50%);
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  color:white;
+  box-shadow:0 12px 30px rgba(0,0,0,0.3);
+  z-index:999;
+  transition:0.2s;
+}
+
+.fab:active{
+  transform:translateX(-50%) scale(0.9);
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
   font-family:'Outfit',sans-serif;
@@ -132,6 +154,8 @@ body{
   border-bottom-left-radius:20px;
   border-bottom-right-radius:20px;
 }
+  border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
   .topbar-left h1{
   font-size:16px;
   font-weight:900;
@@ -173,8 +197,23 @@ body{
 }
 
 /* ── PAGES ── */
-.page{display:none;padding:14px;max-width:540px;margin:0 auto;padding-bottom:80px;}
-.page.active{display:block;}
+.page{
+  display:none;
+  padding:14px;
+  max-width:540px;
+  margin:0 auto;
+  padding-bottom:90px;
+  animation:fadeSlide 0.3s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fadeSlide{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
 
 /* ── SUMMARY BAR ── */
 .summary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
@@ -189,6 +228,7 @@ body{
 .summary-box.orange{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
 }
+  transform:scale(1.02);
 .summary-box .s-label{font-size:11px;opacity:0.7;margin-bottom:4px;}
 .summary-box .s-value{font-size:22px;font-weight:800;}
 
@@ -225,7 +265,11 @@ body{
   grid-template-columns:1fr 1fr;
   gap:10px;
   .card{
-  background: linear-gradient(180deg,#ffffff,#f8fafc);
+  background:white;
+  border-radius:20px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
 }
 }.prod-btn{
   background:white;
@@ -235,13 +279,15 @@ body{
   box-shadow:var(--shadow);
   border:none;
 }
+  transition: all 0.2s ease;
 
 .prod-btn:hover{
   transform:translateY(-3px);
 }
 
+
 .prod-btn:active{
-  transform:scale(0.97);
+  transform:scale(0.96);
 }
 
 .prod-btn.in-cart{
@@ -296,6 +342,9 @@ body{
 .btn-primary{
   background:linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
+}
+  .btn:active{
+  transform:scale(0.96);
 }
 
 .btn-accent{
@@ -414,18 +463,26 @@ body{
 }
 
 .nav-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  font-size:12px;
-  color:var(--soft);
-  cursor:pointer;
+  flex:1;
+  text-align:center;
+  font-size:11px;
+  color:#94a3b8;
   transition:0.2s;
+}
+
+.nav-item span{
+  display:block;
+  font-size:11px;
+  margin-top:2px;
 }
 
 .nav-item.active{
   color:var(--accent);
-  transform:translateY(-3px);
+  font-weight:700;
+  transform:scale(1.1);
+}
+  .nav-item{
+  font-size:20px;
 }
 </style>
 </head>
@@ -1193,5 +1250,6 @@ if ('serviceWorker' in navigator) {
     <span>Setup</span>
   </div>
 </div>
+  <div class="fab" onclick="showPage('billing')">＋</div>
 </body>
 </html>
