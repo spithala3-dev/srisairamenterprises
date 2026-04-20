@@ -12,43 +12,19 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --bg:#fdf8f2;
-  --bg2:#f5ede0;
-  --card:#ffffff;
-  --card2:#fefcf8;
-
-  --teal:#1a9e7e;
-  --teal2:#22b890;
-  --teal-dark:#127060;
-
-  --gold:#c97c2a;
-
-  --danger:#d4622a;
-
-  --text:#2c1e0f;
-  --soft:#7a6652;
-
-  --border:#e8dccb;
-
-  --r:16px;
-}
-  .add-lender-btn{
-  position:fixed;
-  right:18px;
-  bottom:98px;
-  padding:12px 16px;
-  border:none;
-  border-radius:999px;
-  background:linear-gradient(135deg,#22b890,#127060);
-  color:white;
-  font-size:13px;
-  font-weight:700;
-  box-shadow:0 8px 24px rgba(0,0,0,0.25);
-  z-index:1000;
-}
-
-.add-lender-btn.hidden{
-  display:none;
+  --primary: #0f172a;        /* deep navy */
+  --primary2: #1e293b;
+  --accent: #ff7a18;        /* premium orange */
+  --accent2: #ffb347;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --soft: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  --r: 18px;
 }
  
   /* 🔥 PREMIUM LENDER BUTTONS */
@@ -154,8 +130,8 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{
-  font-family:'Nunito',sans-serif;
-background:var(--bg);
+  font-family:'Outfit',sans-serif;
+  background: linear-gradient(135deg,#e6ebf2,#fdfdfd);
   color:var(--text);
   min-height:100vh;
 }
@@ -376,45 +352,54 @@ background:var(--bg);
   margin-top:14px;
 }
 .prod-btn{
-  background:var(--card2);
-  border-radius:16px;
-  padding:14px;
+  background:linear-gradient(145deg,#ffffff,#f8fafc);
+  border-radius:18px;
+  padding:16px;
   position:relative;
-  cursor:pointer;
-  border:1.5px solid var(--border);
-  transition:0.2s;
+  transition:0.3s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  border:2px solid transparent;
 }
-
-.prod-btn:hover{
-  transform:translateY(-3px);
-  border-color:var(--teal);
-}
-
-.prod-name{
-  font-size:12px;
-  font-weight:700;
-  color:var(--text);
-}
-
-.prod-price{
-  font-size:15px;
-  font-weight:900;
-  color:var(--teal);
-}
-
-.add-btn{
+  .add-btn{
   position:absolute;
-  right:10px;
-  bottom:10px;
-  width:26px;
-  height:26px;
+  right:12px;
+  bottom:12px;
+  width:28px;
+  height:28px;
   border-radius:8px;
-  background:#d0f2ea;
+  background:#f1f5f9;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:18px;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
-  .prod-unit{font-size:10px;color:var(--soft);font-weight:400;}
+
+.prod-btn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  padding:2px;
+  background:linear-gradient(135deg,#0f766e,#f59e0b);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+}
+
+.prod-btn:hover{
+  transform:translateY(-5px);
+}
+.prod-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;font-family:'Noto Sans Telugu','Outfit',sans-serif;}
+.prod-price{
+  font-size:14px;
+  color:#f97316;
+  font-weight:800;
+  margin-top:4px;
+}.prod-unit{font-size:10px;color:var(--soft);font-weight:400;}
 .cart-badge{position:absolute;top:-7px;right:-7px;background:var(--accent);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;box-shadow:0 2px 6px rgba(232,93,4,0.4);}
 
 /* ── CART ── */
@@ -971,7 +956,6 @@ function showLogin() {
   document.getElementById('bottomNav').style.display = 'none';
   document.getElementById('app').style.display = 'none';
   document.getElementById('fabAddLender').classList.add('hidden');
-  
 }
 
 // ═══════════════════════════════════════════
@@ -1083,16 +1067,16 @@ function doLogout() {
 // ═══════════════════════════════════════════
 //  NAVIGATION
 // ═══════════════════════════════════════════
-function showPage(name, el){
+function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
 
   document.getElementById('page-' + name).classList.add('active');
-  if(el) el.classList.add('active');
+  if (el) el.classList.add('active');
 
   const fab = document.getElementById('fabAddLender');
 
-  if(name === 'lenders'){
+  if (name === 'lenders') {
     fab.classList.remove('hidden');
   } else {
     fab.classList.add('hidden');
@@ -1531,11 +1515,14 @@ function togglePassword() {
   renderCart();
   renderProds(document.getElementById('prodSearch').value);
 }
-function closeSheet(id){
+function closeSheet(id) {
   document.getElementById(id).classList.remove('open');
 
-  if(id === 'addLenderSheet' && document.getElementById('page-lenders').classList.contains('active')){
-    document.getElementById('fabAddLender').classList.remove('hidden');
+  if (id === 'addLenderSheet') {
+    const lendersPageOpen = document.getElementById('page-lenders').classList.contains('active');
+    if (lendersPageOpen) {
+      document.getElementById('fabAddLender').classList.remove('hidden');
+    }
   }
 }
 
