@@ -633,6 +633,28 @@ body{
       </div>
     </div>
     <input class="search" placeholder="🔍 Search lender..." oninput="filterLenders(this.value)" id="lenderSearch">
+    <div class="card">
+  <div class="card-title">➕ Add Lender Manually</div>
+
+  <div class="fg">
+    <label>Name</label>
+    <input type="text" id="manualName" placeholder="Customer name">
+  </div>
+
+  <div class="fg">
+    <label>Phone</label>
+    <input type="tel" id="manualPhone" placeholder="10-digit number">
+  </div>
+
+  <div class="fg">
+    <label>Amount</label>
+    <input type="number" id="manualAmount" placeholder="Enter amount">
+  </div>
+
+  <button class="btn btn-accent" onclick="addManualLender()">
+    ➕ Add Lender
+  </button>
+</div>
     <div id="lendersList"></div>
   </div>
 
@@ -1297,6 +1319,48 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2600);
+}
+  async function addManualLender() {
+  const name = document.getElementById('manualName').value.trim();
+  const phone = document.getElementById('manualPhone').value.trim();
+  const amount = parseFloat(document.getElementById('manualAmount').value);
+
+  if (!name || phone.length !== 10 || !amount || amount <= 0) {
+    showToast("Enter valid details");
+    return;
+  }
+
+  const today = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  const newLender = {
+    name,
+    phone,
+    total_amount: amount,
+    paid_amount: 0,
+    bill_no: "Manual",
+    bill_date: today,
+    items: []
+  };
+
+  if (sb) {
+    const { data } = await sb.from('lenders').insert([newLender]).select();
+    if (data) lenders.unshift(data[0]);
+  } else {
+    newLender.id = Date.now();
+    lenders.unshift(newLender);
+    saveLocal();
+  }
+
+  document.getElementById('manualName').value = '';
+  document.getElementById('manualPhone').value = '';
+  document.getElementById('manualAmount').value = '';
+
+  renderAll();
+  showToast("✅ Lender added!");
 }
 </script>
   <script>
