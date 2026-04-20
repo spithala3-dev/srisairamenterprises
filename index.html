@@ -484,6 +484,8 @@ body{
   to{opacity:1; transform:translateY(0);}
 }
   #fabAddLender{
+  display:none;   /* 🔥 ADD THIS LINE */
+
   position:fixed;
   bottom:90px;
   right:18px;
@@ -843,6 +845,7 @@ function showLogin() {
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('bottomNav').style.display = 'none';
   document.getElementById('app').style.display = 'none';  /* 🔥 fix */
+  document.getElementById('fabAddLender').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════
@@ -938,6 +941,7 @@ function doLogin() {
     document.getElementById('app').style.display = 'block';
     document.getElementById('bottomNav').style.display = 'flex';
     renderAll();
+    document.getElementById('fabAddLender').style.display = 'none';
   } else {
     document.getElementById('loginErr').textContent = '❌ Wrong password';
   }
@@ -956,8 +960,18 @@ function doLogout() {
 function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
+
+  // 🔥 CONTROL BUTTON HERE
+  const fab = document.getElementById('fabAddLender');
+  if(name === 'lenders'){
+    fab.style.display = 'block';
+  } else {
+    fab.style.display = 'none';
+  }
+
   renderAll();
 }
 
