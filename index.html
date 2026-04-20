@@ -609,6 +609,10 @@ body{
     <div class="card">
       <div class="card-title"> SELECT ITEMS </div>
       <input class="search" placeholder="Search product..." oninput="filterProds(this.value)" id="prodSearch">
+      <select id="categoryFilter" onchange="renderProds()"
+style="width:100%;padding:12px;border-radius:12px;margin-bottom:10px;">
+  <option value="all">All Categories</option>
+</select>
       <div class="product-grid" id="productGrid"></div>
     </div>
 
@@ -670,6 +674,10 @@ body{
         <div class="fg">
           <label>Unit</label>
           <input type="text" id="npUnit" placeholder="piece / sqft">
+          <div class="fg">
+  <label>Category</label>
+  <input type="text" id="npCategory" placeholder="e.g. Doors / Windows">
+</div>
         </div>
       </div>
       <button class="btn btn-accent" onclick="addProduct()">Add Product</button>
@@ -996,17 +1004,46 @@ function renderAll() {
 // ═══════════════════════════════════════════
 function renderProds(filter = '') {
   const grid = document.getElementById('productGrid');
-  const list = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
-  if (!list.length) { grid.innerHTML = '<p style="color:var(--soft);font-size:13px;grid-column:1/-1;padding:10px 0;">No products found.</p>'; return; }
+
+  const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+
+  // create category list
+  const categories = [...new Set(products.map(p => p.category || 'General'))];
+
+  // fill dropdown once
+  const catSelect = document.getElementById('categoryFilter');
+  if (catSelect && catSelect.options.length <= 1) {
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      catSelect.appendChild(opt);
+    });
+  }
+
+  let list = products.filter(p =>
+    p.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  // filter by category
+  if (selectedCategory !== 'all') {
+    list = list.filter(p => (p.category || 'General') === selectedCategory);
+  }
+
+  if (!list.length) {
+    grid.innerHTML = '<p>No products</p>';
+    return;
+  }
+
   grid.innerHTML = list.map(p => {
     const q = cart[p.id] || 0;
-   return `<div class="prod-btn${q > 0 ? ' in-cart' : ''}" onclick="addCart(${p.id})">
-  ${q > 0 ? `<div class="cart-badge">${q}</div>` : ''}
-  <div class="prod-name">${p.name}</div>
-  <div class="prod-price">₹${p.price} <span class="prod-unit">/ ${p.unit || 'piece'}</span></div>
-
-  <div class="add-btn">+</div>
-</div>`;
+    return `
+    <div class="prod-btn" onclick="addCart(${p.id})">
+      ${q > 0 ? `<div class="cart-badge">${q}</div>` : ''}
+      <div class="prod-name">${p.name}</div>
+      <div class="prod-price">₹${p.price}</div>
+      <div class="add-btn">+</div>
+    </div>`;
   }).join('');
 }
 function filterProds(v) { renderProds(v); }
@@ -1274,16 +1311,31 @@ async function addProduct() {
   const name = document.getElementById('npName').value.trim();
   const price = parseFloat(document.getElementById('npPrice').value);
   const unit = document.getElementById('npUnit').value.trim() || 'piece';
-  if (!name || isNaN(price) || price <= 0) { showToast('Enter valid name and price'); return; }
-  let newP = { name, price, unit };
+  const category = document.getElementById('npCategory').value.trim() || 'General';
+
+  if (!name || isNaN(price) || price <= 0) {
+    showToast('Enter valid name and price');
+    return;
+  }
+
+  let newP = { name, price, unit, category };
+
   if (sb) {
     const { data } = await sb.from('products').insert([newP]).select();
     if (data) newP = data[0];
-  } else { newP.id = Date.now(); saveLocal(); }
+  } else {
+    newP.id = Date.now();
+    saveLocal();
+  }
+
   products.push(newP);
+
+  // clear inputs
   document.getElementById('npName').value = '';
   document.getElementById('npPrice').value = '';
   document.getElementById('npUnit').value = '';
+  document.getElementById('npCategory').value = '';
+
   renderAll();
   showToast('✅ Product added!');
 }
