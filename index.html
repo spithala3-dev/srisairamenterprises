@@ -36,33 +36,28 @@
 }
 /* 🔥 FULL WIDTH ADD LENDER BUTTON */
 .add-lender-btn{
+  display:none;
   position:fixed;
-  bottom:80px;   /* above navbar */
-  left:50%;
-  transform:translateX(-50%);
-
-  width:90%;
-  max-width:500px;
-
-  padding:14px;
-
+  right:18px;
+  bottom:98px;
+  padding:12px 16px;
   border:none;
-  border-radius:16px;
-
+  border-radius:999px;
   background:linear-gradient(135deg,#f97316,#ea580c);
-  color:white;
-
-  font-size:15px;
+  color:#fff;
+  font-size:14px;
   font-weight:800;
-
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
+  box-shadow:0 10px 24px rgba(0,0,0,0.22);
+  z-index:1000;
+  white-space:nowrap;
+}
 
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
-
-  z-index:9999;
+.add-lender-btn.hidden{
+  display:none !important;
 }
 .pbtn{
   padding:10px;
@@ -743,9 +738,10 @@ border-radius:12px;}
         <label>WhatsApp Number</label>
         <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric">
       </div>
-<button class="btn btn-accent" style="width:100%;">
-  ➕ Add lenders Product
-</button>    </div>
+<button id="fabAddLender" class="add-lender-btn" onclick="openAddLender()">
+  <span>➕</span>
+  <span>Add Lender</span>
+</button>   </div>
   </div>
 
   <!-- LENDERS -->
@@ -952,12 +948,11 @@ window.onload = async () => {
   }, 300);
 
 };
-
 function showLogin() {
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('bottomNav').style.display = 'none';
-  document.getElementById('app').style.display = 'none';  /* 🔥 fix */
-  document.getElementById('fabAddLender').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('fabAddLender').classList.add('hidden');
 }
 
 // ═══════════════════════════════════════════
@@ -1052,8 +1047,8 @@ function doLogin() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('bottomNav').style.display = 'flex';
+    document.getElementById('fabAddLender').classList.add('hidden');
     renderAll();
-    document.getElementById('fabAddLender').style.display = 'none';
   } else {
     document.getElementById('loginErr').textContent = '❌ Wrong password';
   }
@@ -1076,12 +1071,12 @@ function showPage(name, el) {
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
 
-  // 🔥 CONTROL BUTTON HERE
   const fab = document.getElementById('fabAddLender');
-  if(name === 'lenders'){
-    fab.style.display = 'flex';
+
+  if (name === 'lenders') {
+    fab.classList.remove('hidden');
   } else {
-    fab.style.display = 'none';
+    fab.classList.add('hidden');
   }
 
   renderAll();
@@ -1513,9 +1508,15 @@ function togglePassword() {
   renderCart();
   renderProds(document.getElementById('prodSearch').value);
 }
-function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-  function openAddLender(){
-  document.getElementById('addLenderSheet').classList.add('open');
+function closeSheet(id) {
+  document.getElementById(id).classList.remove('open');
+
+  if (id === 'addLenderSheet') {
+    const lendersPageOpen = document.getElementById('page-lenders').classList.contains('active');
+    if (lendersPageOpen) {
+      document.getElementById('fabAddLender').classList.remove('hidden');
+    }
+  }
 }
 
 function saveCreds() {
@@ -1567,8 +1568,9 @@ function showToast(msg) {
   document.getElementById('manualAmount').value = '';
 
   renderAll();
-  showToast("✅ Lender added!");
-    closeSheet('addLenderSheet');
+showToast("✅ Lender added!");
+closeSheet('addLenderSheet');
+document.getElementById('fabAddLender').classList.remove('hidden');
 }
 </script>
   <script>
