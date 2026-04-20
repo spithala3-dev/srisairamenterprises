@@ -36,7 +36,6 @@
 }
 /* 🔥 FULL WIDTH ADD LENDER BUTTON */
 .add-lender-btn{
-  display:none;
   position:fixed;
   right:18px;
   bottom:98px;
@@ -47,13 +46,20 @@
   color:#fff;
   font-size:14px;
   font-weight:800;
+
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
+
   box-shadow:0 10px 24px rgba(0,0,0,0.22);
   z-index:1000;
+
   white-space:nowrap;
+}
+
+.add-lender-btn.hidden{
+  display:none !important;
 }
 
 .add-lender-btn.hidden{
@@ -1097,6 +1103,10 @@ function renderAll() {
     lucide.createIcons();
   }, 0);
 }
+  function openAddLender(){
+  document.getElementById('addLenderSheet').classList.add('open');
+  document.getElementById('fabAddLender').classList.add('hidden');
+}
 
 // ═══════════════════════════════════════════
 //  PRODUCTS
@@ -1581,9 +1591,6 @@ if ('serviceWorker' in navigator) {
 }
     lucide.createIcons();
 </script>
-<button id="fabAddLender" class="add-lender-btn" onclick="openAddLender()">
-  ➕ Add Lender
-</button>
   <div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" onclick="showPage('billing', this)">
     <i data-lucide="receipt"></i>
