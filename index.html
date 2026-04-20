@@ -1012,14 +1012,16 @@ function renderProds(filter = '') {
 
   // fill dropdown once
   const catSelect = document.getElementById('categoryFilter');
-  if (catSelect && catSelect.options.length <= 1) {
-    categories.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat;
-      opt.textContent = cat;
-      catSelect.appendChild(opt);
-    });
-  }
+ if (catSelect) {
+  catSelect.innerHTML = '<option value="all">All Categories</option>';
+
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    catSelect.appendChild(opt);
+  });
+}
 
   let list = products.filter(p =>
     p.name.toLowerCase().includes(filter.toLowerCase())
