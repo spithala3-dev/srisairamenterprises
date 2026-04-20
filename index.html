@@ -26,6 +26,28 @@
   --shadow: 0 10px 30px rgba(0,0,0,0.08);
   --r: 18px;
 }
+  /* 🔥 CATEGORY BUTTONS */
+#categoryChips{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin-bottom:10px;
+}
+
+.cat-chip{
+  padding:8px 14px;
+  border-radius:20px;
+  background:#e2e8f0;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.cat-chip.active{
+  background:linear-gradient(135deg,#f97316,#ea580c);
+  color:white;
+}
     #pwdInput {
   height: 48px;
 }
@@ -609,10 +631,7 @@ body{
     <div class="card">
       <div class="card-title"> SELECT ITEMS </div>
       <input class="search" placeholder="Search product..." oninput="filterProds(this.value)" id="prodSearch">
-      <select id="categoryFilter" onchange="renderProds()"
-style="width:100%;padding:12px;border-radius:12px;margin-bottom:10px;">
-  <option value="all">All Categories</option>
-</select>
+     <div id="categoryChips"></div>
       <div class="product-grid" id="productGrid"></div>
     </div>
 
@@ -827,6 +846,7 @@ let cart = {};
 let currentInv = null;
 let partialLenderId = null;
 let billNo = 1;
+let selectedCategory = 'all';
 
 // ═══════════════════════════════════════════
 //  INIT
@@ -1004,30 +1024,23 @@ function renderAll() {
 // ═══════════════════════════════════════════
 function renderProds(filter = '') {
   const grid = document.getElementById('productGrid');
+  const chipWrap = document.getElementById('categoryChips');
 
-  const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+  const categories = ['all', ...new Set(products.map(p => p.category || 'General'))];
 
-  // create category list
-  const categories = [...new Set(products.map(p => p.category || 'General'))];
-
-  // fill dropdown once
-  const catSelect = document.getElementById('categoryFilter');
- if (catSelect) {
-  catSelect.innerHTML = '<option value="all">All Categories</option>';
-
-  categories.forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat;
-    catSelect.appendChild(opt);
-  });
-}
+  // 🔥 create category buttons
+  chipWrap.innerHTML = categories.map(cat => `
+    <div class="cat-chip ${selectedCategory === cat ? 'active' : ''}"
+      onclick="selectCategory('${cat}')">
+      ${cat === 'all' ? 'All' : cat}
+    </div>
+  `).join('');
 
   let list = products.filter(p =>
     p.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  // filter by category
+  // 🔥 filter by category
   if (selectedCategory !== 'all') {
     list = list.filter(p => (p.category || 'General') === selectedCategory);
   }
@@ -1047,6 +1060,10 @@ function renderProds(filter = '') {
       <div class="add-btn">+</div>
     </div>`;
   }).join('');
+}
+  function selectCategory(cat){
+  selectedCategory = cat;
+  renderProds(document.getElementById('prodSearch').value);
 }
 function filterProds(v) { renderProds(v); }
 function addCart(id) { cart[id] = (cart[id] || 0) + 1; renderProds(document.getElementById('prodSearch').value); renderCart(); }
