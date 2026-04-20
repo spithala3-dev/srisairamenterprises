@@ -744,10 +744,7 @@ border-radius:12px;}
         <label>WhatsApp Number</label>
         <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric">
       </div>
-<button id="fabAddLender" class="add-lender-btn" onclick="openAddLender()">
-  <span>➕</span>
-  <span>Add Lender</span>
-</button>   </div>
+  </div>
   </div>
 
   <!-- LENDERS -->
@@ -1591,6 +1588,9 @@ if ('serviceWorker' in navigator) {
 }
     lucide.createIcons();
 </script>
+  <button id="fabAddLender" class="add-lender-btn hidden" onclick="openAddLender()">
+  ➕ Add Lender
+</button>
   <div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" onclick="showPage('billing', this)">
     <i data-lucide="receipt"></i>
